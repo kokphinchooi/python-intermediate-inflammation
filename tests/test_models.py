@@ -125,3 +125,17 @@ class RandomTest(unittest.TestCase):
 
         self.assertAlmostEqual(mean, np.mean(sample), places=2)
         self.assertAlmostEqual(sdev, np.std(sample), places=2)
+
+
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([[0, 0], [0, 0], [0, 0]], [0, 0]),
+        ([[1, 2], [3, 4], [5, 6]], [1.633, 1.633]),
+        ([[3, 10], [4, 11], [7, 12]], [1.700, 0.816]),
+    ])
+def test_daily_std_dev(test, expected):
+    """Test mean function works for array of zeroes and positive integers."""
+    from inflammation.models import daily_std_dev
+
+    npt.assert_almost_equal(daily_std_dev(np.array(test)), np.array(expected), decimal=2)
